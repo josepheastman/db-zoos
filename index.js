@@ -17,7 +17,11 @@ const db = knex(knexConfig.development);
 server.get("/api/zoos", (req, res) => {
   db("zoos")
     .then(zoos => {
-      res.status(200).json(zoos);
+      if (zoos) {
+        res.status(200).json(zoos);
+      } else {
+        res.status(404).json({ error: "Zoo not found" });
+      }
     })
     .catch(err =>
       res
@@ -52,11 +56,9 @@ server.post("/api/zoos", (req, res) => {
       res.status(201).json(ids);
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({
-          error: "There was an error while saving the zoo to the database."
-        });
+      res.status(500).json({
+        error: "There was an error while saving the zoo to the database."
+      });
     });
 });
 
@@ -96,7 +98,11 @@ server.put("/api/zoos/:id", (req, res) => {
 server.get("/api/bears", (req, res) => {
   db("bears")
     .then(bears => {
-      res.status(200).json(bears);
+      if (bears) {
+        res.status(200).json(bears);
+      } else {
+        res.status(404).json({ error: "Bears not found." });
+      }
     })
     .catch(err =>
       res
@@ -131,11 +137,9 @@ server.post("/api/bears", (req, res) => {
       res.status(201).json(ids);
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({
-          error: "There was an error while saving the bear to the database."
-        });
+      res.status(500).json({
+        error: "There was an error while saving the bear to the database."
+      });
     });
 });
 
